@@ -1,12 +1,7 @@
-# Define here the models for your scraped items
-#
-# See documentation in:
-# https://docs.scrapy.org/en/latest/topics/items.html
-
 import scrapy
+from itemloaders import processors
 
 
-class JobdarjobItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class JobdarjobListItem(scrapy.Item):
+    company_name = scrapy.Field(input_processor=processors.Identity(), output_processor=processors.TakeFirst())
+    company_id = scrapy.Field(input_processor=processors.Identity(), output_processor=processors.TakeFirst())

@@ -2,18 +2,18 @@ import re
 
 import scrapy
 from scrapy.loader import ItemLoader
-from jobdarjob.items import JobdarjobListItem
+from jobdarjob.items import JobdarjobLinkItem
 
 
-class JobinjaListSpider(scrapy.Spider):
-    name = "jobinja_list"
+class JobinjaLinkSpider(scrapy.Spider):
+    name = "jobinja_link"
     start_urls = [
         "https://jobinja.ir/jobs"
     ]
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         for item in response.xpath('/html/body/div[1]/div[3]/form[2]/div/div/div[2]/section/div/ul/li'):
-            loader = ItemLoader(item=JobdarjobListItem(), selector=item)
+            loader = ItemLoader(item=JobdarjobLinkItem(), selector=item)
 
             link = response.css("a.c-jobListView__titleLink::attr(href)").get()
 

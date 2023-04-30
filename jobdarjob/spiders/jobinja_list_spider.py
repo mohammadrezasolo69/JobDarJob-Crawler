@@ -24,3 +24,8 @@ class JobinjaListSpider(scrapy.Spider):
                 loader.add_value('company_id', match.group(2))
 
             yield loader.load_item()
+
+        # pagination
+        next_page = response.css('div.paginator a[rel="next"]::attr(href)').get()
+        if next_page:
+            yield response.follow(next_page, callback=self.parse)

@@ -9,6 +9,7 @@
 
 BOT_NAME = "jobdarjob"
 
+
 SPIDER_MODULES = ["jobdarjob.spiders"]
 NEWSPIDER_MODULE = "jobdarjob.spiders"
 

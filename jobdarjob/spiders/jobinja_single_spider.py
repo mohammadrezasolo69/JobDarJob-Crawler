@@ -3,11 +3,12 @@ from scrapy.loader import ItemLoader
 from jobdarjob.items import JobinjaSingleItem
 
 
+
 class JobinjaSingleSpider(scrapy.Spider):
     name = 'jobinja_single'
     start_urls = [
-        "https://jobinja.ir/companies/mehrabgashtsabz/jobs/CV34/",
-        'https://jobinja.ir/companies/son/jobs/CUaL/'
+        # "https://jobinja.ir/companies/mehrabgashtsabz/jobs/CV34/",
+        'https://jobinja.ir/companies/parvasystem/jobs/CoqQ/'
     ]
 
     def parse(self, response, **kwargs):
@@ -34,8 +35,8 @@ class JobinjaSingleSpider(scrapy.Spider):
                          'normalize-space(/html/body/div/div[4]/div/div/div[1]/section/ul[1]/li[3]/div/span/text())')
         loader.add_xpath('work_experience', '/html/body/div/div[4]/div/div/div[1]/section/ul[1]/li[4]/div/span/text()')
         loader.add_xpath('salary', '/html/body/div/div[4]/div/div/div[1]/section/ul[1]/li[5]/div/span/text()')
-        loader.add_xpath('description', '//*[@id="singleJob"]/div/div/div[1]/section/div[2]')
-        loader.add_xpath('company_about', '//*[@id="singleJob"]/div/div/div[1]/section/div[3]/text()')
+        loader.add_xpath('description', '/html/body/div/div[4]/div/div/div[1]/section/div[2]')
+        loader.add_xpath('company_about', '/html/body/div/div[4]/div/div/div[1]/section/div[3]')
 
         # --------------------------------------------------------------------------------------------------------------
 

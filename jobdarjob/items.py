@@ -1,9 +1,16 @@
 import scrapy
 from itemloaders import processors
+from w3lib.html import remove_tags
 
 
 def clean_result(value: str) -> str:
-    return value.strip().replace('\u200c', '')
+    return remove_tags(
+        value.strip().replace('\n', '').replace('\t', '').replace('\r', '').replace('\u200c', '')
+    )
+
+
+def clean_description(value: str) -> str:
+    return ''.join(clean_result(value))
 
 
 # --------------------------------------------------------------------------------------------------------------
@@ -57,10 +64,11 @@ class JobinjaSingleItem(scrapy.Item):
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
     description = scrapy.Field(
-        input_processor=processors.Identity()
+        input_processor=processors.MapCompose(clean_description), output_processor=processors.TakeFirst()
     )
     company_about = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst())
+        input_processor=processors.MapCompose(clean_description), output_processor=processors.TakeFirst()
+    )
 
     # --------------------------------------------------------------------------------------------------------------
 

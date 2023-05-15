@@ -1,6 +1,9 @@
 from jobdarjob.database.orm import ClickHouse
+from scrapy.utils.project import get_project_settings
 
-click = ClickHouse()
+settings = get_project_settings()
+Click = ClickHouse(host=settings.get('CLICKHOUSE_HOST'),port=settings.get('CLICKHOUSE_PORT'))
+
 
 
 class JobinjaLinkPipeline:
@@ -10,8 +13,8 @@ class JobinjaLinkPipeline:
             "company_name": item.get('company_name'),
         }
 
-        click.database.use('Jobdarjob')
-        click.database.insert('jobinja_link', database)
+        Click.database.use('Jobdarjob')
+        Click.database.insert('jobinja_link', database)
 
         return item
 
@@ -21,6 +24,7 @@ class JobinjaSinglePipeline:
         database = {
             "link": item.get('link'),
             'label': item.get('label'),
+            "company_id": item.get('company_id'),
 
             "company_name": item.get('company_name'),
             "company_cover": item.get('company_cover'),
@@ -41,7 +45,7 @@ class JobinjaSinglePipeline:
             "skills": item.get('skills'),
         }
 
-        click.database.use('Jobdarjob')
-        click.database.insert('jobinja_single', database)
+        Click.database.use('Jobdarjob')
+        Click.database.insert('jobinja_single', database)
 
         return item

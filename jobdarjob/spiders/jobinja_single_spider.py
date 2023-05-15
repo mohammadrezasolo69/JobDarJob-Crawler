@@ -1,3 +1,5 @@
+import re
+
 import scrapy
 from scrapy.loader import ItemLoader
 from jobdarjob.items import JobinjaSingleItem
@@ -6,16 +8,27 @@ from jobdarjob.items import JobinjaSingleItem
 class JobinjaSingleSpider(scrapy.Spider):
     name = 'jobinja_single'
     start_urls = [
-        # "https://jobinja.ir/companies/mehrabgashtsabz/jobs/CV34/",
-        'https://jobinja.ir/companies/parvasystem/jobs/CoqQ/'
+        'https://jobinja.ir/companies/parvasystem/jobs/CoqQ/',
+        "https://jobinja.ir/companies/united-technologists/jobs/CocR/"
     ]
+
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'jobdarjob.pipelines.JobinjaSinglePipeline': 300,  # process item (insert data in db)
+        },
+    }
 
     def parse(self, response, **kwargs):
         loader = ItemLoader(item=JobinjaSingleItem(), response=response)
         # --------------------------------------------------------------------------------------------------------------
+        link = response.url
 
-        loader.add_value('link', response.url)
+        match = re.match(r"https://jobinja\.ir/companies/([\w-]+)/jobs/([\w-]+)", link)
+        if match:
+            loader.add_value('company_id', match.group(2))
+
         loader.add_value('label', 'jobinja')
+        loader.add_value('link', link)
 
         # --------------------------------------------------------------------------------------------------------------
 

@@ -5,9 +5,6 @@ from bs4 import BeautifulSoup
 
 
 def clean_result(value: str) -> str:
-    print('*' * 200)
-    print(value)
-    print('*' * 200)
     return remove_tags(
         value.strip().replace('\n', ' ').replace('\t', ' ').replace('\r', ' ').replace('\u200c', ' ')
     )

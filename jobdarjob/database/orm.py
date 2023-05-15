@@ -112,21 +112,13 @@ class Database:
         # logging.info(f'Table {table_name} Deleted.')
 
     def insert(self, table_name: str, fields: dict):
-        # columns = ", ".join(fields.keys())
-        # values = ", ".join([f"'{value}'" if value is not None else "NULL" for value in fields.values()])
-        # query = f"INSERT INTO {table_name} ({columns}) VALUES ({values})"
-        # print("******************************************")
-        # print(query)
-        # self.client.execute(query)
         column_value: list = []
         for i in fields.values():
             column_value.append(self._check_encoded(i))
 
         self.client.execute(
-            f"""INSERT INTO {table_name}({','.join(fields.keys())}) values ({','.join(column_value)})"""
+            f"""INSERT INTO {table_name} ({','.join(fields.keys())}) values ({','.join(column_value)})"""
         )
-
-
 
     def select(self, table_name: str, fields: list):
         query = f"""

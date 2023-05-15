@@ -11,6 +11,12 @@ class JobinjaLinkSpider(scrapy.Spider):
         "https://jobinja.ir/jobs"
     ]
 
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'jobdarjob.pipelines.JobinjaLinkPipeline': 300,  # process item (insert data in db)
+        },
+    }
+
     def parse(self, response, **kwargs):
         for item in response.xpath('/html/body/div[1]/div[3]/form[2]/div/div/div[2]/section/div/ul/li'):
             loader = ItemLoader(item=JobdarjobLinkItem(), selector=item)

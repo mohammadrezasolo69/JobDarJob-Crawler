@@ -29,6 +29,10 @@ class JobinjaSingleItem(scrapy.Item):
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
 
+    label = scrapy.Field(
+        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
+    )
+
     company_name = scrapy.Field(
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )

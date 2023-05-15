@@ -3,7 +3,6 @@ from scrapy.loader import ItemLoader
 from jobdarjob.items import JobinjaSingleItem
 
 
-
 class JobinjaSingleSpider(scrapy.Spider):
     name = 'jobinja_single'
     start_urls = [
@@ -16,6 +15,7 @@ class JobinjaSingleSpider(scrapy.Spider):
         # --------------------------------------------------------------------------------------------------------------
 
         loader.add_value('link', response.url)
+        loader.add_value('label', 'jobinja')
 
         # --------------------------------------------------------------------------------------------------------------
 

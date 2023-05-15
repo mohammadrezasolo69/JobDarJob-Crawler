@@ -14,8 +14,7 @@ services:
       - 'clickhouse_data:/var/lib/clickhouse/'
       - 'clickhouse_log:/var/log/clickhouse-server/'
     environment:
-      - CLICKHOUSE_USER=admin
-      - CLICKHOUSE_PASSWORD=admin
+      - "LANG=en_US.UTF-8"
 
 
 volumes:

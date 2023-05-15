@@ -1,16 +1,22 @@
 import scrapy
 from itemloaders import processors
 from w3lib.html import remove_tags
+from bs4 import BeautifulSoup
 
 
 def clean_result(value: str) -> str:
+    print('*' * 200)
+    print(value)
+    print('*' * 200)
     return remove_tags(
-        value.strip().replace('\n', '').replace('\t', '').replace('\r', '').replace('\u200c', '')
+        value.strip().replace('\n', ' ').replace('\t', ' ').replace('\r', ' ').replace('\u200c', ' ')
     )
 
 
 def clean_description(value: str) -> str:
-    return ''.join(clean_result(value))
+    soup = BeautifulSoup(value, 'html.parser')
+    text = soup.get_text(strip=True)
+    return text.replace("'", "''")
 
 
 # --------------------------------------------------------------------------------------------------------------
@@ -26,6 +32,10 @@ class JobdarjobLinkItem(scrapy.Item):
 
 class JobinjaSingleItem(scrapy.Item):
     link = scrapy.Field(
+        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
+    )
+
+    company_id = scrapy.Field(
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
 
@@ -68,7 +78,8 @@ class JobinjaSingleItem(scrapy.Item):
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
     description = scrapy.Field(
-        input_processor=processors.MapCompose(clean_description), output_processor=processors.TakeFirst()
+        input_processor=processors.MapCompose(clean_description),
+        output_processor=processors.TakeFirst()
     )
     company_about = scrapy.Field(
         input_processor=processors.MapCompose(clean_description), output_processor=processors.TakeFirst()
@@ -86,5 +97,6 @@ class JobinjaSingleItem(scrapy.Item):
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
     skills = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result), output_processor=processors.Identity()
+        input_processor=processors.MapCompose(clean_result),
+        output_processor=processors.Identity()
     )

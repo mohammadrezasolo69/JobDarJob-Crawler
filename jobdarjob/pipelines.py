@@ -1,9 +1,10 @@
 from jobdarjob.database.orm import ClickHouse
+from jobdarjob.database.utils import GenerateID
 from scrapy.utils.project import get_project_settings
 
 settings = get_project_settings()
 Click = ClickHouse(host=settings.get('CLICKHOUSE_HOST'),port=settings.get('CLICKHOUSE_PORT'))
-
+set_id = GenerateID()
 
 
 class JobinjaLinkPipeline:
@@ -24,6 +25,7 @@ class JobinjaLinkPipeline:
 class JobinjaSinglePipeline:
     def process_item(self, item, spider):
         database = {
+            "id": set_id.generate_id,
             "link": item.get('link'),
             'label': item.get('label'),
             "company_id": item.get('company_id'),

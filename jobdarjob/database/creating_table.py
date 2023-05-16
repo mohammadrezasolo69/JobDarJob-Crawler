@@ -19,15 +19,14 @@ Click.database.create_table(table_name='jobinja_link', fields=schema_table, engi
 
 # Single
 schema_table = {
+    'id': 'String',
     'company_id': 'String',
     "link": 'String',
     'label': 'String',
-
     "company_name": 'String',
     "company_cover": 'String',
     "company_website": 'Nullable(String)',
     "company_category": 'String',
-
     "title": 'String',
     "category": 'String',
     "location": 'String',

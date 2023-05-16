@@ -15,6 +15,8 @@ class JobinjaLinkPipeline:
 
         Click.database.use('Jobdarjob')
         Click.database.insert('jobinja_link', database)
+        Click.database.optimize_table(table_name='jobinja_link', pk_field='company_id')
+
 
         return item
 
@@ -47,5 +49,6 @@ class JobinjaSinglePipeline:
 
         Click.database.use('Jobdarjob')
         Click.database.insert('jobinja_single', database)
+        Click.database.optimize_table(table_name='jobinja_single', pk_field='company_id')
 
         return item

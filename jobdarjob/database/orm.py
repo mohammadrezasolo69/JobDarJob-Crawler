@@ -59,7 +59,8 @@ class Database:
         self.active_database = None
 
     def optimize_table(self, table_name, pk_field):
-        self.manual_query(f"optimize {table_name} DEDUPLICATE BY {pk_field}")
+        query = f"OPTIMIZE TABLE {table_name} DEDUPLICATE BY {pk_field};"
+        self.manual_query(query)
 
     def create(self, database_name: str, using=True):
         try:
@@ -86,7 +87,7 @@ class Database:
         except Exception as e:
             print(e)
 
-    def create_table(self, table_name: str, fields: dict, engine='MergeTree', duplicate=True) -> None:
+    def create_table(self, table_name: str, fields: dict, engine='MergeTree') -> None:
         if 'PRIMARY KEY' not in fields:
             raise Exception('Missing required fields:PRIMARY KEY')
 
@@ -99,9 +100,6 @@ class Database:
                 field += f'{key} {value},'
         query = f"""CREATE TABLE IF NOT EXISTS {table_name} ({field}) ENGINE={engine} {setting};"""
         self.client.execute(query)
-
-        if not duplicate:
-            self.optimize_table(table_name=table_name, pk_field=fields.get('PRIMARY KEY'))
 
     def insert(self, table_name: str, fields: dict):
         column_value: list = []

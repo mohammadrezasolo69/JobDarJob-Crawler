@@ -7,6 +7,7 @@ import colorlog
 
 from clickhouse_driver import Client
 
+
 # os.system('clear')
 # logger = colorlog.getLogger()
 #
@@ -57,14 +58,15 @@ class Database:
         self.client = client
         self.active_database = None
 
+    def optimize_table(self, table_name, pk_field):
+        self.manual_query(f"optimize {table_name} DEDUPLICATE BY {pk_field}")
+
     def create(self, database_name: str, using=True):
         try:
             self.client.execute(f'CREATE DATABASE IF NOT EXISTS {database_name};')
-            # logging.info("Database " + database_name + " has created.")
 
         except Exception as e:
-            pass
-            # logging.error(f"Database Creation has failed: {str(e)}")
+            print(e)
 
         if using:
             self.use(database_name)
@@ -72,26 +74,19 @@ class Database:
     def drop(self, database_name: str):
         try:
             self.client.execute(f'DROP DATABASE IF EXISTS {database_name}')
-            # logging.info("Database " + database_name + " has deleted.")
 
         except Exception as e:
-            pass
-            # logging.error(f"Database Delete has failed: {str(e)}")
+            print(e)
 
     def use(self, database_name: str):
         try:
             self.client.execute(f'USE {database_name};')
             self.active_database = database_name
-            # logging.info("Database " + database_name + " has selected.")
 
         except Exception as e:
-            pass
-            # logging.error(f"Database select has failed: {str(e)}")
+            print(e)
 
-    def all(self):
-        return self.client.execute(f'SHOW DATABASES;')
-
-    def create_table(self, table_name: str, fields: dict, engine='MergeTree') -> None:
+    def create_table(self, table_name: str, fields: dict, engine='MergeTree', duplicate=True) -> None:
         if 'PRIMARY KEY' not in fields:
             raise Exception('Missing required fields:PRIMARY KEY')
 
@@ -104,12 +99,9 @@ class Database:
                 field += f'{key} {value},'
         query = f"""CREATE TABLE IF NOT EXISTS {table_name} ({field}) ENGINE={engine} {setting};"""
         self.client.execute(query)
-        # logging.info(f'Table {table_name} Created.')
 
-    def drop_table(self, table_name: str) -> None:
-        query = f"""DROP TABLE IF EXISTS {table_name};"""
-        self.client.execute(query)
-        # logging.info(f'Table {table_name} Deleted.')
+        if not duplicate:
+            self.optimize_table(table_name=table_name, pk_field=fields.get('PRIMARY KEY'))
 
     def insert(self, table_name: str, fields: dict):
         column_value: list = []
@@ -120,24 +112,7 @@ class Database:
             f"""INSERT INTO {table_name} ({','.join(fields.keys())}) values ({','.join(column_value)})"""
         )
 
-    def select(self, table_name: str, fields: list):
-        query = f"""
-        SELECT {",".join(fields)} FROM {self.active_database}.{table_name}
-        """
-        return self.client.execute(query)
-
-    def all_tables(self):
-        query = f"""SHOW TABLES;"""
-        return self.client.execute(query)
-
-    def get_active_database(self):
-        return self.active_database
-
     def manual_query(self, query):
-        return self.client.execute(query)
-
-    def describe_table(self, table_name):
-        query = f'DESCRIBE {table_name}'
         return self.client.execute(query)
 
     @staticmethod

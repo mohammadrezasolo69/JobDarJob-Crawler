@@ -1,24 +1,6 @@
 import os
-# import logging
-import urllib
 from urllib.parse import unquote
-
-import colorlog
-
 from clickhouse_driver import Client
-
-
-# os.system('clear')
-# logger = colorlog.getLogger()
-#
-# logger.setLevel(logging.INFO)
-# handler = colorlog.StreamHandler()
-# handler.setFormatter(colorlog.ColoredFormatter(
-#     '%(log_color)s%(levelname)s:%(message)s "LINE":%(lineno)d\n'
-#     '------------------------------------------------------------'
-# ))
-
-# logger.addHandler(handler)
 
 
 class ClickHouse:

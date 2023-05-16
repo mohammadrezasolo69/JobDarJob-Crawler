@@ -1,24 +1,18 @@
 import string
 
 
-def generate_id():
-    letters = string.ascii_lowercase
-    current_prefix = 'aa'
-    current_number = 10000000
+class GenerateID:
+    def __init__(self):
+        self.current_prefix = 'aa'
+        self.current_number = 10000000
 
-    while True:
+    @property
+    def generate_id(self):
+        letters = string.ascii_lowercase
+        self.current_number += 1
+        if self.current_number > 99999999:
+            prefix_index = letters.find(self.current_prefix[0]) + 1
+            self.current_prefix = letters[prefix_index] * 2
+            self.current_number = 10000000
 
-        yield f'{current_prefix}{current_number}'
-        current_number += 1
-        if current_number > 99999999:
-            prefix_index = letters.find(current_prefix[0]) + 1
-
-            if prefix_index >= len(letters):
-                break
-
-            current_prefix = letters[prefix_index] * 2
-            current_number = 10000000
-
-
-
-
+        return f'{self.current_prefix}{self.current_number}'

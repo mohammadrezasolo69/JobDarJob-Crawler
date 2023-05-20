@@ -1,5 +1,5 @@
 import re
-
+import time
 import scrapy
 from scrapy.loader import ItemLoader
 from jobdarjob.items import JobdarjobLinkItem
@@ -21,8 +21,10 @@ class JobinjaLinkSpider(scrapy.Spider):
         for item in response.xpath('/html/body/div[1]/div[3]/form[2]/div/div/div[2]/section/div/ul/li'):
             loader = ItemLoader(item=JobdarjobLinkItem(), selector=item)
 
-            link = response.css("a.c-jobListView__titleLink::attr(href)").get()
-
+            link = item.xpath('div/div[1]/a/@href').get()
+            # print('*'*20)
+            # print(link)
+            # time.sleep(2)
             match = re.match(r"https://jobinja\.ir/companies/([\w-]+)/jobs/([\w-]+)", link)
 
             if match:

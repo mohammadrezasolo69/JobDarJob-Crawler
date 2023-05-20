@@ -58,9 +58,8 @@ class Database:
         for i in data.values():
             column_value.append(self._check_encoded(i))
 
-        self._execute_query(
-            f"""INSERT INTO {table_name} ({','.join(data.keys())}) values ({','.join(column_value)});"""
-        )
+        query = f"""INSERT INTO {table_name} ({','.join(data.keys())}) values ({','.join(column_value)});"""
+        self._execute_query(query)
 
     def active_database(self, database_name):
         self.active_database = database_name

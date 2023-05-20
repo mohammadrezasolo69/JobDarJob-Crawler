@@ -13,7 +13,7 @@ Click.database.create(database_name='Jobdarjob', using=True)
 schema_table = {
     'company_id': 'String',
     'company_name': 'String',
-    "PRIMARY KEY": '(company_id)',
+    "PRIMARY KEY": '(company_id,company_name)',
 }
 Click.database.create_table(table_name='jobinja_link', fields=schema_table, engine='ReplacingMergeTree')
 

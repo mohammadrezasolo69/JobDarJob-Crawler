@@ -1,21 +1,21 @@
 from scrapy.utils.project import get_project_settings
-from orm import ClickHouse
+from orm import ClickHouseModel
 
 # Connect to clickhouse
 settings = get_project_settings()
-Click = ClickHouse(host=settings.get('CLICKHOUSE_HOST'), port=settings.get('CLICKHOUSE_PORT'))
+Click = ClickHouseModel(host=settings.get('CLICKHOUSE_HOST'), port=settings.get('CLICKHOUSE_PORT'))
 
 # create table Jobdarjob
-Click.database.create(database_name='Jobdarjob', using=True)
+Click.database.create_db(database_name='Jobdarjob', using=True)
 
 # ------------------------------------------ Jobinja -------------------------------------------------
 # Link
 schema_table = {
     'company_id': 'String',
     'company_name': 'String',
-    "PRIMARY KEY": '(company_id,company_name)',
 }
-Click.database.create_table(table_name='jobinja_link', fields=schema_table, engine='ReplacingMergeTree')
+Click.database.create_tabel(table_name='jobinja_link', fields=schema_table, engine='ReplacingMergeTree',
+                            primary_key=('company_id',))
 
 # Single
 schema_table = {
@@ -38,9 +38,9 @@ schema_table = {
     "gender": 'String',
     "education": 'String',
     "military_service": 'String',
-    "skills": 'Array(Nullable(String))',
-
-    "PRIMARY KEY": '(company_id)',
-    "ORDER BY": '(company_id)',
+    "skills": 'Array(Nullable(String))'
 }
-Click.database.create_table(table_name='jobinja_single', fields=schema_table, engine='ReplacingMergeTree')
+Click.database.create_tabel(table_name='jobinja_single', fields=schema_table, engine='ReplacingMergeTree',
+                            primary_key=('id',)
+                            )
+

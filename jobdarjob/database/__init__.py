@@ -1,1 +1,1 @@
-from .orm import ClickHouse
+from .orm import ClickHouseModel

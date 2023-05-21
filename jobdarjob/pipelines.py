@@ -27,7 +27,6 @@ class JobinjaLinkPipeline:
 class JobinjaSinglePipeline:
     def process_item(self, item, spider):
         database = {
-            "id": set_id.generate_id,
             "link": item.get('link'),
             'label': item.get('label'),
             "company_id": item.get('company_id'),

@@ -22,11 +22,8 @@ class JobinjaLinkSpider(scrapy.Spider):
             loader = ItemLoader(item=JobdarjobLinkItem(), selector=item)
 
             link = item.xpath('div/div[1]/a/@href').get()
-            # print('*'*20)
-            # print(link)
-            # time.sleep(2)
-            match = re.match(r"https://jobinja\.ir/companies/([\w-]+)/jobs/([\w-]+)", link)
 
+            match = re.match(r"https://jobinja\.ir/companies/([\w-]+)/jobs/([\w-]+)", link)
             if match:
                 loader.add_value('company_name', match.group(1))
                 loader.add_value('company_id', match.group(2))

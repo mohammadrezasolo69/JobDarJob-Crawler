@@ -1,0 +1,2 @@
+from .pipeline_jobinja_link import JobinjaLinkPipeline
+from .pipeline_jobinja_single import JobinjaSinglePipeline

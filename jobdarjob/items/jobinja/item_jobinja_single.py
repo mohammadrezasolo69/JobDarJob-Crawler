@@ -1,30 +1,7 @@
 import scrapy
-from itemloaders import processors
-from w3lib.html import remove_tags
-from bs4 import BeautifulSoup
+from scrapy.loader import processors
 
-
-def clean_result(value: str) -> str:
-    return remove_tags(
-        value.strip().replace('\n', ' ').replace('\t', ' ').replace('\r', ' ').replace('\u200c', ' ')
-    )
-
-
-def clean_description(value: str) -> str:
-    soup = BeautifulSoup(value, 'html.parser')
-    text = soup.get_text(strip=True)
-    return text.replace("'", "''")
-
-
-# --------------------------------------------------------------------------------------------------------------
-
-class JobdarjobLinkItem(scrapy.Item):
-    company_name = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
-    )
-    company_id = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
-    )
+from jobdarjob.items.processors import clean_result, clean_description
 
 
 class JobinjaSingleItem(scrapy.Item):

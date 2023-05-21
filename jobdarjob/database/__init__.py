@@ -1,1 +1,2 @@
-from .orm import ClickHouseModel
+from jobdarjob.database.connection import click
+

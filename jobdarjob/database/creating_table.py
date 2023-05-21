@@ -20,7 +20,7 @@ Click.database.create_tabel(table_name='jobinja_link', fields=schema_table, engi
 
 # Single
 schema_table = {
-    'id': 'String',
+    'id': 'UUID DEFAULT generateUUIDv4()',
     'company_id': 'String',
     "link": 'String',
     'label': 'String',

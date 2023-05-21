@@ -1,22 +1,33 @@
 import re
-
+import time
 import scrapy
 from scrapy.loader import ItemLoader
 from jobdarjob.items import JobinjaSingleItem
+from jobdarjob.database.orm import ClickHouseModel
+from scrapy.utils.project import get_project_settings
+
+# Connect to clickhouse
+settings = get_project_settings()
+Click = ClickHouseModel(host=settings.get('CLICKHOUSE_HOST'), port=settings.get('CLICKHOUSE_PORT'))
+Click.database.use('Jobdarjob')
 
 
 class JobinjaSingleSpider(scrapy.Spider):
     name = 'jobinja_single'
-    start_urls = [
-        'https://jobinja.ir/companies/parvasystem/jobs/CoqQ/',
-        "https://jobinja.ir/companies/united-technologists/jobs/CocR/"
-    ]
-
     custom_settings = {
         'ITEM_PIPELINES': {
             'jobdarjob.pipelines.JobinjaSinglePipeline': 300,  # process item (insert data in db)
         },
     }
+
+    def start_requests(self):
+        data_from_jobinja_link = Click.database.select(table_name='jobinja_link',
+                                                       columns=('company_name', 'company_id'))
+
+        for data in data_from_jobinja_link:
+            company_name, company_id = data
+            link = f'https://jobinja.ir/companies/{company_name}/jobs/{company_id}/'
+            yield scrapy.Request(link, callback=self.parse)
 
     def parse(self, response, **kwargs):
         loader = ItemLoader(item=JobinjaSingleItem(), response=response)

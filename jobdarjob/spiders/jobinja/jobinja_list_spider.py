@@ -13,7 +13,7 @@ class JobinjaLinkSpider(scrapy.Spider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            'jobdarjob.pipelines.JobinjaLinkPipeline': 300,  # process item (insert data in db)
+            'jobdarjob.pipelines.jobinja.JobinjaLinkPipeline': 300,  # process item (insert data in db)
         },
     }
 

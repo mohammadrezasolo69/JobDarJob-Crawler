@@ -15,7 +15,8 @@ class Database:
         self.client = client
 
     def _execute_query(self, query):
-        return self.client.execute(query)
+        result = self.client.execute(query)
+        return result
 
     def create_db(self, database_name, using=True):
         query = f"CREATE DATABASE IF NOT EXISTS {database_name};"
@@ -83,6 +84,17 @@ class Database:
         query = f"OPTIMIZE TABLE {table_name} FINAL DEDUPLICATE BY COLUMNS ({pk_field});"
         self._execute_query(query)
         print(f'*** table {table_name} optimized ***')
+
+    def select(self, table_name: str, columns: tuple = ('*',), order_by=None) -> list:
+        if order_by is None:
+            order_by = {'date': 'DESC'}
+
+        columns_str = ','.join(map(str, columns))
+        order_by_str = ', '.join([f'{colum} {value}' for colum, value in order_by.items()])
+
+        query = f'SELECT {columns_str} FROM {table_name} ORDER BY {order_by_str}'
+        return self._execute_query(query)
+
 
 # class ClickHouse:
 #     def __init__(self, host='localhost', port=9000):

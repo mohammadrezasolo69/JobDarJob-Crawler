@@ -1,11 +1,5 @@
-from jobdarjob.database.orm import ClickHouseModel
-from jobdarjob.database.utils import GenerateID
-from scrapy.utils.project import get_project_settings
+from jobdarjob.database import click
 from datetime import datetime
-
-settings = get_project_settings()
-Click = ClickHouseModel(host=settings.get('CLICKHOUSE_HOST'),port=settings.get('CLICKHOUSE_PORT'))
-set_id = GenerateID()
 
 
 class JobinjaLinkPipeline:
@@ -16,10 +10,9 @@ class JobinjaLinkPipeline:
             "date_last_crawl": datetime.now().strftime('%Y/%m/%d'),
         }
 
-        Click.database.use('Jobdarjob')
-        Click.database.insert('jobinja_link', database)
-        Click.database.optimize_table(table_name='jobinja_link', pk_field='company_id,company_name')
-
+        # click.database.use('Jobdarjob')
+        click.database.insert('jobinja_link', database)
+        click.database.optimize_table(table_name='jobinja_link', pk_field='company_id,company_name')
 
         return item
 
@@ -52,8 +45,8 @@ class JobinjaSinglePipeline:
 
         }
 
-        Click.database.use('Jobdarjob')
-        Click.database.insert('jobinja_single', database)
-        Click.database.optimize_table(table_name='jobinja_single', pk_field='id')
+        # Click.database.use('Jobdarjob')
+        click.database.insert('jobinja_single', database)
+        click.database.optimize_table(table_name='jobinja_single', pk_field='id')
 
         return item

@@ -1,8 +1,7 @@
-from jobdarjob.database import ClickHouseModel
 
 CLICKHOUSE_HOST = 'localhost'
 CLICKHOUSE_PORT = 9000
-
+CLICKHOUSE_DATABASE = 'Jobdarjob'
 
 BOT_NAME = "jobdarjob"
 

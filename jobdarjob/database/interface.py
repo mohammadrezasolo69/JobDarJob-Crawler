@@ -253,10 +253,12 @@ class Database:
                     list: The result of the SELECT query.
                 """
         if order_by is None:
-            order_by = {'date': 'DESC'}
+            order_by = {'date_last_crawl': 'DESC'}
 
         columns_str = ','.join(map(str, columns))
         order_by_str = ', '.join([f'{colum} {value}' for colum, value in order_by.items()])
 
         query = f'SELECT {columns_str} FROM {table_name} ORDER BY {order_by_str}'
+        print("&"*100)
+        print(query)
         return self._execute_query(query)

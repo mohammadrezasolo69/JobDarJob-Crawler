@@ -3,13 +3,7 @@ import time
 import scrapy
 from scrapy.loader import ItemLoader
 from jobdarjob.items import JobinjaSingleItem
-from jobdarjob.database.orm import ClickHouseModel
-from scrapy.utils.project import get_project_settings
-
-# Connect to clickhouse
-settings = get_project_settings()
-Click = ClickHouseModel(host=settings.get('CLICKHOUSE_HOST'), port=settings.get('CLICKHOUSE_PORT'))
-Click.database.use('Jobdarjob')
+from jobdarjob.database import click
 
 
 class JobinjaSingleSpider(scrapy.Spider):
@@ -21,9 +15,7 @@ class JobinjaSingleSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        data_from_jobinja_link = Click.database.select(table_name='jobinja_link',
-                                                       columns=('company_name', 'company_id'))
-
+        data_from_jobinja_link = click.database.select(table_name='jobinja_link',columns=('company_name', 'company_id'))
         for data in data_from_jobinja_link:
             company_name, company_id = data
             link = f'https://jobinja.ir/companies/{company_name}/jobs/{company_id}/'

@@ -13,7 +13,7 @@ class JobinjaLinkPipeline:
         database = {
             "company_id": item.get('company_id'),
             "company_name": item.get('company_name'),
-            "date": datetime.now().strftime('%Y/%m/%d'),
+            "date_last_crawl": datetime.now().strftime('%Y/%m/%d'),
         }
 
         Click.database.use('Jobdarjob')
@@ -48,7 +48,7 @@ class JobinjaSinglePipeline:
             "education": item.get('education'),
             "military_service": item.get('military_service'),
             "skills": item.get('skills'),
-            "date": datetime.now().strftime('%Y/%m/%d'),
+            "date_last_crawl": datetime.now().strftime('%Y/%m/%d'),
 
         }
 

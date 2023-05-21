@@ -2,7 +2,7 @@ import re
 import time
 import scrapy
 from scrapy.loader import ItemLoader
-from jobdarjob.items import JobdarjobLinkItem
+from jobdarjob.items.jobinja import JobdarjobLinkItem
 
 
 class JobinjaLinkSpider(scrapy.Spider):

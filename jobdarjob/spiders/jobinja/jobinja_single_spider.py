@@ -2,7 +2,7 @@ import re
 import time
 import scrapy
 from scrapy.loader import ItemLoader
-from jobdarjob.items import JobinjaSingleItem
+from jobdarjob.items.jobinja import JobinjaSingleItem
 from jobdarjob.database import click
 
 

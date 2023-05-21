@@ -13,7 +13,7 @@ Click.database.create_db(database_name='Jobdarjob', using=True)
 schema_table = {
     'company_id': 'String',
     'company_name': 'String',
-    'date': 'Date'
+    'date_last_crawl': 'Date'
 }
 Click.database.create_tabel(table_name='jobinja_link', fields=schema_table, engine='ReplacingMergeTree',
                             primary_key=('company_id',))
@@ -40,7 +40,7 @@ schema_table = {
     "education": 'String',
     "military_service": 'String',
     "skills": 'Array(Nullable(String))',
-    'date': 'Date'
+    'date_last_crawl': 'Date'
 }
 Click.database.create_tabel(table_name='jobinja_single', fields=schema_table, engine='ReplacingMergeTree',
                             primary_key=('id',)

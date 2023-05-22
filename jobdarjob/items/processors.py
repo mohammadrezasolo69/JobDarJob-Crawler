@@ -1,3 +1,5 @@
+import re
+
 from bs4 import BeautifulSoup
 from w3lib.html import remove_tags
 
@@ -12,3 +14,10 @@ def clean_description(value: str) -> str:
     soup = BeautifulSoup(value, 'html.parser')
     text = soup.get_text(strip=True)
     return text.replace("'", "''")
+
+
+def extract_number(value):
+    match = re.search(r'\d+', value)
+    if match:
+        return 60 - int(match.group())
+    return 0

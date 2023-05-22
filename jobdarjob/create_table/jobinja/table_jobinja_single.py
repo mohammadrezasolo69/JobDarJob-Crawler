@@ -22,7 +22,8 @@ schema_table = {
     "education": 'String',
     "military_service": 'String',
     "skills": 'Array(Nullable(String))',
-    'date_last_crawl': 'Date'
+    'date_last_crawl': 'Date',
+    "publication_date": "Int8"
 }
 click.database.create_tabel(table_name='jobinja_single', fields=schema_table, engine='ReplacingMergeTree',
                             primary_key=('id',)

@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.loader import processors
 
-from jobdarjob.items.processors import clean_result, clean_description
+from jobdarjob.items.processors import clean_result, clean_description ,extract_number
 
 
 class JobinjaSingleItem(scrapy.Item):
@@ -15,6 +15,10 @@ class JobinjaSingleItem(scrapy.Item):
 
     label = scrapy.Field(
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
+    )
+
+    publication_date = scrapy.Field(
+        input_processor=processors.MapCompose(clean_result,extract_number), output_processor=processors.TakeFirst()
     )
 
     company_name = scrapy.Field(
@@ -72,10 +76,5 @@ class JobinjaSingleItem(scrapy.Item):
     )
     skills = scrapy.Field(
         input_processor=processors.MapCompose(clean_result),
-        output_processor=processors.Identity()
-    )
-
-    publication_date = scrapy.Field(
-        input_processor=processors.Identity(),
         output_processor=processors.Identity()
     )

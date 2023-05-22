@@ -27,6 +27,7 @@ class JobinjaSinglePipeline:
             "education": item.get('education'),
             "military_service": item.get('military_service'),
             "skills": item.get('skills'),
+            "publication_date":item.get('publication_date'),
             "date_last_crawl": datetime.now().strftime('%Y/%m/%d'),
 
         }

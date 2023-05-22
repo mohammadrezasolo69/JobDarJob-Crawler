@@ -74,3 +74,8 @@ class JobinjaSingleItem(scrapy.Item):
         input_processor=processors.MapCompose(clean_result),
         output_processor=processors.Identity()
     )
+
+    publication_date = scrapy.Field(
+        input_processor=processors.Identity(),
+        output_processor=processors.Identity()
+    )

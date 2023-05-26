@@ -1,7 +1,9 @@
 import scrapy
 from scrapy.loader import processors
 
-from jobdarjob.items.processors import clean_result, clean_description, cover_complete
+from jobdarjob.items.processors import (
+    clean_result, clean_description, cover_complete, convert_publish_date
+)
 
 
 class QueraSingleItem(scrapy.Item):
@@ -18,7 +20,7 @@ class QueraSingleItem(scrapy.Item):
     )
 
     publication_date = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
+        input_processor=processors.MapCompose(convert_publish_date), output_processor=processors.TakeFirst()
     )
 
     company_name = scrapy.Field(

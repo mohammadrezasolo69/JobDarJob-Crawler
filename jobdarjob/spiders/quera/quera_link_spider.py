@@ -15,6 +15,12 @@ class QueraLinkSpider(spiders.Spider):
         'https://quera.org/magnet/jobs',
     ]
 
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'jobdarjob.pipelines.quera.QueraLinkPipeline': 300,  # process item (insert data in db)
+        },
+    }
+
     def parse(self, response, **kwargs):
         # Extract the last page number
         self.last_page = response.xpath('//button[@class="chakra-button css-g3korc"]/text()')[-1].get()

@@ -21,3 +21,13 @@ def extract_number(value):
     if match:
         return 60 - int(match.group())
     return 0
+
+
+# -------------------------------- quera ------------------------------------
+def convert_work_experience(value: str):
+    ...
+
+
+def cover_complete(value: str) -> str:
+    main_url = 'https://quera.org/'
+    return main_url + value

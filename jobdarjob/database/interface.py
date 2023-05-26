@@ -240,7 +240,7 @@ class Database:
         self._execute_query(query)
         print(f'*** table {table_name} optimized ***')
 
-    def select(self, table_name: str, columns: tuple = ('*',), order_by=None) -> list:
+    def select(self, table_name: str, columns: tuple = ('*',)) -> list:
         """
                 Executes a SELECT query on the specified table.
 
@@ -252,13 +252,11 @@ class Database:
                 Returns:
                     list: The result of the SELECT query.
                 """
-        if order_by is None:
-            order_by = {'date_last_crawl': 'DESC'}
+
 
         columns_str = ','.join(map(str, columns))
-        order_by_str = ', '.join([f'{colum} {value}' for colum, value in order_by.items()])
 
-        query = f'SELECT {columns_str} FROM {table_name} ORDER BY {order_by_str}'
+        query = f'SELECT {columns_str} FROM {table_name}'
         print("&"*100)
         print(query)
         return self._execute_query(query)

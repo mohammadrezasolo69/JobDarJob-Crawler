@@ -25,6 +25,6 @@ schema_table = {
     'date_last_crawl': 'Date',
     "publication_date": "Int8"
 }
-click.database.create_tabel(table_name='jobinja_single', fields=schema_table, engine='ReplacingMergeTree',
+click.database.create_tabel(table_name='jobdarjob_single', fields=schema_table, engine='ReplacingMergeTree',
                             primary_key=('id',)
                             )

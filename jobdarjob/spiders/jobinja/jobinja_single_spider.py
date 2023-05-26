@@ -11,7 +11,7 @@ class JobinjaSingleSpider(scrapy.Spider):
     name = 'jobinja_single'
     custom_settings = {
         'ITEM_PIPELINES': {
-            'jobdarjob.pipelines.jobinja.JobinjaSinglePipeline': 300,  # process item (insert data in db)
+            'jobdarjob.pipelines.JobdarjobSinglePipeline': 300,  # process item (insert data in db)
         },
     }
 

@@ -16,13 +16,6 @@ services:
     environment:
       - "LANG=en_US.UTF-8"
 
-  splash:
-    image: scrapinghub/splash
-    container_name: 'splash'
-    restart: always
-    ports:
-      - "8050:8050"
-
 
 volumes:
   clickhouse_data:

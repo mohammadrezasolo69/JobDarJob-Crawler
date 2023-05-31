@@ -1,7 +1,13 @@
-
+# Config Clickhouse
 CLICKHOUSE_HOST = 'localhost'
 CLICKHOUSE_PORT = 9000
 CLICKHOUSE_DATABASE = 'Jobdarjob'
+
+# Config PlayWrite
+# TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+# PLAYWRIGHT_BROWSER_TYPE = "chromium"
+
+# --------------------------------------------------------------------------------------
 
 BOT_NAME = "jobdarjob"
 
@@ -40,15 +46,15 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 # SPIDER_MIDDLEWARES = {
-#    "jobdarjob.middlewares.JobdarjobSpiderMiddleware": 543,
+#     
 # }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "jobdarjob.middlewares.JobdarjobDownloaderMiddleware": 543,
-# }
-
+DOWNLOAD_HANDLERS = {
+    "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+    "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+}
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 # EXTENSIONS = {

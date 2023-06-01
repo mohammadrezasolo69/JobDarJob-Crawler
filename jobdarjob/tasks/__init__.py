@@ -1,0 +1,1 @@
+from .task_jobinja import run_jobinja_link_spider,run_jobinja_single_spider

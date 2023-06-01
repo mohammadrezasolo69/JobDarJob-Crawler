@@ -14,7 +14,8 @@ services:
       - 'clickhouse_data:/var/lib/clickhouse/'
       - 'clickhouse_log:/var/log/clickhouse-server/'
     environment:
-      - "LANG=en_US.UTF-8"
+      CLICKHOUSE_USER: 'admin'
+      CLICKHOUSE_PASSWORD: 'root'
 
   redis:
     image: redis

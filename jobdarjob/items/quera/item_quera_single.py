@@ -1,10 +1,12 @@
 import scrapy
 from scrapy.loader import processors
 
-from jobdarjob.items.processors import clean_result, clean_description ,extract_number
+from jobdarjob.items.processors import (
+    clean_result, clean_description, cover_complete, convert_publish_date
+)
 
 
-class JobinjaSingleItem(scrapy.Item):
+class QueraSingleItem(scrapy.Item):
     link = scrapy.Field(
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
@@ -18,7 +20,7 @@ class JobinjaSingleItem(scrapy.Item):
     )
 
     publication_date = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result,extract_number), output_processor=processors.TakeFirst()
+        input_processor=processors.MapCompose(convert_publish_date), output_processor=processors.TakeFirst()
     )
 
     company_name = scrapy.Field(
@@ -26,7 +28,7 @@ class JobinjaSingleItem(scrapy.Item):
     )
 
     company_cover = scrapy.Field(
-        input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
+        input_processor=processors.MapCompose(cover_complete), output_processor=processors.TakeFirst()
     )
     company_website = scrapy.Field(
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
@@ -56,11 +58,11 @@ class JobinjaSingleItem(scrapy.Item):
         input_processor=processors.MapCompose(clean_result), output_processor=processors.TakeFirst()
     )
     description = scrapy.Field(
-        input_processor=processors.MapCompose(clean_description),
+        input_processor=processors.MapCompose(clean_result, clean_description),
         output_processor=processors.TakeFirst()
     )
     company_about = scrapy.Field(
-        input_processor=processors.MapCompose(clean_description), output_processor=processors.TakeFirst()
+        input_processor=processors.MapCompose(clean_result, clean_description), output_processor=processors.TakeFirst()
     )
 
     # --------------------------------------------------------------------------------------------------------------

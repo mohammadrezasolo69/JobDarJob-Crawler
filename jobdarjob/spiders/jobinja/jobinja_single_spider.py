@@ -1,21 +1,23 @@
 import re
-import time
+
 import scrapy
 from scrapy.loader import ItemLoader
-from jobdarjob.items.jobinja import JobinjaSingleItem
+
 from jobdarjob.database import click
+from jobdarjob.items.jobinja import JobinjaSingleItem
 
 
 class JobinjaSingleSpider(scrapy.Spider):
     name = 'jobinja_single'
     custom_settings = {
         'ITEM_PIPELINES': {
-            'jobdarjob.pipelines.jobinja.JobinjaSinglePipeline': 300,  # process item (insert data in db)
+            'jobdarjob.pipelines.JobdarjobSinglePipeline': 300,  # process item (insert data in db)
         },
     }
 
     def start_requests(self):
-        data_from_jobinja_link = click.database.select(table_name='jobinja_link',columns=('company_name', 'company_id'))
+        data_from_jobinja_link = click.database.select(table_name='jobinja_link',
+                                                       columns=('company_name', 'company_id'))
         for data in data_from_jobinja_link:
             company_name, company_id = data
             link = f'https://jobinja.ir/companies/{company_name}/jobs/{company_id}/'
@@ -33,7 +35,10 @@ class JobinjaSingleSpider(scrapy.Spider):
         loader.add_value('label', 'jobinja')
         loader.add_value('link', link)
 
+
         # --------------------------------------------------------------------------------------------------------------
+        loader.add_xpath('publication_date',
+                         '//section[contains(@class, "o-box")]/div/p[contains(@class, "u-mB0")]/b/text()')
 
         loader.add_xpath('company_name', '//*[@id="view-job"]/div[1]/div[3]/div[1]/div/div/div/h2/text()')
         loader.add_xpath('company_cover', '//*[@id="view-job"]/div[1]/div[3]/div[1]/div/div/a/img/@src')

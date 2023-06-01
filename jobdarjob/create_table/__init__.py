@@ -1,1 +1,3 @@
-from .jobinja import table_jobinja_link, table_jobinja_single
+from . import table_single
+from . import quera
+from . import jobinja

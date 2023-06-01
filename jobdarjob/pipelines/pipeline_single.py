@@ -3,7 +3,7 @@ from datetime import datetime
 from jobdarjob.database import click
 
 
-class JobinjaSinglePipeline:
+class JobdarjobSinglePipeline:
     def process_item(self, item, spider):
         database = {
             "link": item.get('link'),
@@ -27,12 +27,12 @@ class JobinjaSinglePipeline:
             "education": item.get('education'),
             "military_service": item.get('military_service'),
             "skills": item.get('skills'),
+            "publication_date": item.get('publication_date'),
             "date_last_crawl": datetime.now().strftime('%Y/%m/%d'),
 
         }
 
-        # Click.database.use('Jobdarjob')
-        click.database.insert('jobinja_single', database)
-        click.database.optimize_table(table_name='jobinja_single', pk_field='id')
+        click.database.insert('jobdarjob_single', database)
+        click.database.optimize_table(table_name='jobdarjob_single', pk_field='id')
 
         return item
